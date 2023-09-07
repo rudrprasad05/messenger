@@ -30,10 +30,10 @@ const Input : React.FC<InputProps> = ({
     disabled
 }) => {
   return (
-    <div>
+    <div className='mt-2 mb-4'>
         <label 
             htmlFor={id}
-            className={"text-sm text-blue-500"}
+            className={"text-sm text-gray-900"}
         >
             {label}
         </label>
@@ -49,8 +49,13 @@ const Input : React.FC<InputProps> = ({
                     w-full
                     rounded-md
                     border-0
-                    ring-2
-                `)}
+                    ring-gray-300
+                    ring-1
+                    focus:outline-none 
+                    focus:ring-gray-500`,
+                    errors[id] && "focus:ring-rose-500",
+                    disabled && "opacity-50 cursor-default"
+                )}
             />
 
         </div>
