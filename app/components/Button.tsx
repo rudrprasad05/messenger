@@ -1,4 +1,4 @@
-'use-client'
+'use client'
 
 import React from 'react'
 import clsx from 'clsx'
@@ -24,6 +24,7 @@ const Button : React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
+    
         type={type}
         onClick={onClick}
         disabled={disabled}

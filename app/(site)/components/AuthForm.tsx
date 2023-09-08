@@ -5,19 +5,35 @@ import {
     SubmitHandler, 
     useForm 
 } from 'react-hook-form'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Input from '@/app/components/input/Input'
 import Button from '@/app/components/Button'
 import AuthSocialButton from './AuthSocialButton'
 
 import { BsGithub, BsGoogle } from 'react-icons/bs'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
+import { signIn, useSession } from 'next-auth/react'
+import ToasterContext from '@/app/context/ToasterContext'
+import { sign } from 'crypto'
+import { Fascinate } from 'next/font/google'
+import { useRouter } from 'next/navigation'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
 const AuthForm = () => {
 
+    const session = useSession()
+    const router = useRouter()
     const [variant, setVariant] = useState<Variant>("LOGIN")
     const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        if(session?.status == 'authenticated'){
+            console.log('auth')
+            router.push('/users')
+        }
+    }, [session?.status, router])
 
     const toggleVariant = useCallback(() => {
         if(variant === 'LOGIN'){
@@ -46,16 +62,47 @@ const AuthForm = () => {
         setIsLoading(true)
 
         if(variant === "REGISTER"){
-            // axios register
+            axios.post('/api/register', data)
+            .catch(() => toast.error('something went wrong'))
+            .finally(() => setIsLoading(false))
         }
         if(variant === "LOGIN"){
-            // axios logim
-        }
-        const socialAction = (action : string) => {
-            setIsLoading(true)
+            signIn('credentials', {
+                ...data, 
+                redirect: false
+            })
+            .then((callback) => {
+                if(callback?.error){
+                    toast.error("Invalid Credentials")
+                }
+                else if(callback?.ok){
+                    toast.success("Signed In Successfully")
 
-            // next auth social sign
+                }
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
         }
+        
+    }
+    const socialAction = (action : string) => {
+        setIsLoading(true)
+
+        signIn(action, { redirect: false })
+        .then((callback) => {
+            if(callback?.error){
+                toast.error("Invalid Credentials")
+            }
+            else if(callback?.ok){
+                toast.success("Login Successful")
+            }
+        })
+        .finally(() => {
+            setIsLoading(false)
+        })
+
+        // next auth social sign
     }
 
     return (
@@ -66,7 +113,7 @@ const AuthForm = () => {
                         <Input 
                             label='Name' 
                             register={register}
-                            id="=name"
+                            id="name"
                             errors={errors}
                             disabled={isLoading}
 
