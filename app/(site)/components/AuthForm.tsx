@@ -63,6 +63,7 @@ const AuthForm = () => {
 
         if(variant === "REGISTER"){
             axios.post('/api/register', data)
+            .then(() => signIn('credentials', data))
             .catch(() => toast.error('something went wrong'))
             .finally(() => setIsLoading(false))
         }
@@ -94,7 +95,8 @@ const AuthForm = () => {
             if(callback?.error){
                 toast.error("Invalid Credentials")
             }
-            else if(callback?.ok){
+            if(callback?.ok){
+                console.log("logged in")
                 toast.success("Login Successful")
             }
         })
