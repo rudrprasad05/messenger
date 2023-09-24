@@ -1,6 +1,7 @@
 'use client'
 
 import Avatar from '@/app/components/Avatar'
+import Loading from '@/app/components/Loading'
 import { User } from '@prisma/client'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -33,18 +34,25 @@ const UserBox : React.FC<UseBoxProps> = ({
     })
   }, [data,router])
   return (
-    <div 
-      onClick={handleClick}
-      className={'text-sm w-4/5 mx-auto py-2 px-3 flex items-center gap-3 bg-gray-100 rounded-md hover:bg-gray-200'}
-    >
-      <div className=''>
-        <Avatar user={data}/>
+    <>
+      {loading && (
+        <Loading/>
+      )}
+      <div 
+        onClick={handleClick}
+        className={'text-sm w-4/5 mx-auto py-2 px-3 flex items-center gap-3 bg-gray-100 rounded-md hover:bg-gray-200'}
+      >
+        <div className=''>
+          <Avatar user={data}/>
+        </div>
+        <div>
+          {data?.name}
+        </div>
+        {console.log(data)}
       </div>
-      <div>
-        {data?.name}
-      </div>
-      {console.log(data)}
-    </div>
+    
+    </>
+   
   )
 }
 

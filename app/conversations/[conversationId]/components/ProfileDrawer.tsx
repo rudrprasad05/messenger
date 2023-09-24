@@ -12,6 +12,7 @@ import useOtherUser from '@/app/hooks/useOtherUser';
 import Avatar from '@/app/components/Avatar';
 import Modal from '@/app/components/Modal';
 import ConfirmModel from './ConfirmModel';
+import AvatarGroup from '@/app/components/AvatarGroup';
 
 
 
@@ -104,7 +105,11 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            {<Avatar user={otherUser} />}
+                            {data.isGroup ? (
+                                <AvatarGroup users={data.users} />
+                            ) : (
+                                <Avatar user={otherUser} />
+                            )}
                           </div>
                           <div>
                             {title}
@@ -135,7 +140,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                   sm:flex-shrink-0
                                 "
                               >
-                                Emails
+                                Members
                               </dt>
                               <dd 
                                 className="
@@ -145,7 +150,16 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                   sm:col-span-2
                                 "
                               >
-                                {data.users.map((user) => user.email).join(', ')}
+                                {data.users.map((user) => (
+                                  <div className='flex gap-3 my-3 items-center text-sm'>
+                                    <div>
+                                      <Avatar user={user}/>
+                                    </div>
+                                    <div>
+                                      {user.name}
+                                    </div>
+                                  </div>
+                                ))}
                               </dd>
                             </div>
                           )}
