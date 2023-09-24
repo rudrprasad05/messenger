@@ -1,0 +1,49 @@
+import getCurrentUser from "@/app/actions/getCurrentUser"
+import { NextResponse } from "next/server"
+import prisma from "@/app/libs/prismadb";
+
+
+interface props{
+    conversationId? : string
+}
+
+export async function DELETE(
+    request : Request,
+    { params } : { params: props}
+){
+    try {
+        const { conversationId } = params
+        const currentUser = await getCurrentUser()
+
+        if(!currentUser){
+            return new NextResponse("unauth", { status: 401 })
+        }
+
+        const existingConversation = await prisma.conversation.findUnique({
+            where: {
+                id: conversationId
+            },
+            include: {
+                users: true
+            }
+        })
+
+        if(!existingConversation){
+            return new NextResponse("invalid id", { status: 400 })
+        }
+
+        const deletedConversation = await prisma.conversation.deleteMany({
+            where: {
+                id: conversationId,
+                userIds: {
+                    hasSome: [currentUser.id]
+                }
+            }
+        })
+
+        return NextResponse.json(deletedConversation)
+    } catch (error : any) {
+        console.log(error)
+        return new NextResponse("internal error", { status: 500 })
+    }
+}

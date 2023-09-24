@@ -77,7 +77,7 @@ const Header : React.FC<HeaderProps> = ({
                     </div>
                 </div>
 
-                <HiEllipsisHorizontal size={25}/>
+                <HiEllipsisHorizontal size={25} onClick={() => setDrawerOpen(true)}/>
             </div>
         </>
         

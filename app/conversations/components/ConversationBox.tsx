@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Conversation, Message, User }from '@prisma/client'
 import { format } from 'date-fns'
 import { clsx } from 'clsx'
@@ -9,6 +9,7 @@ import { FullConversationType } from '@/app/types'
 import useOtherUser from '@/app/hooks/useOtherUser'
 import { useSession } from 'next-auth/react'
 import Avatar from '@/app/components/Avatar'
+import AvatarGroup from '@/app/components/AvatarGroup'
 
 interface ConversationBoxProps{
     data: FullConversationType,
@@ -22,6 +23,10 @@ const ConversationBox : React.FC<ConversationBoxProps> = ({
     const otherUser = useOtherUser(data)
     const router = useRouter()
     const session = useSession()
+
+    useEffect(() => {
+        console.log(data)
+    }, [])
 
     const handleClick = useCallback(() => {
         router.push(`/conversations/${data.id}`)
@@ -79,12 +84,16 @@ const ConversationBox : React.FC<ConversationBoxProps> = ({
             )}
         >
             <div className=''>
-                <Avatar user={otherUser} />
+                {data.isGroup ? (
+                    <AvatarGroup users={data.users} />
+                ) : (
+                    <Avatar user={otherUser} />
+                )}
             </div>
 
             <div className='flex flex-col'>
                 <p className='text-slate-700 text-sm mr-auto'>
-                    {otherUser.name || data.name}
+                    { data.name || otherUser.name }
                 </p>
                 <p className={clsx('text-xs', hasSeen ? "text-gray-400" : "text-gray-900")}>
                     {lastMessageText}
