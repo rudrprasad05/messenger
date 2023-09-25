@@ -48,9 +48,9 @@ export async function POST(
                 }
             })
 
-            newConversation.users.forEach(element => {
-                if(user.email){
-                    pusherServer.trigger(user.email, 'conversation:new', newConversation)
+            newConversation.users.forEach((element) => {
+                if(element.email){
+                    pusherServer.trigger(element.email, 'conversation:new', newConversation)
                 }
             });
 
