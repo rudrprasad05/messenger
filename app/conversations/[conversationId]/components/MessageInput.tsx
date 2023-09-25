@@ -8,7 +8,7 @@ interface Props{
     id: string
     type?: string
     required?: boolean
-    register?: UseFormRegister<FieldValues>
+    register: UseFormRegister<FieldValues>
     errors: FieldErrors
 }
 
@@ -16,8 +16,8 @@ const MessageInput : React.FC<Props> = ({
     placeholder,
     id,
     type,
-    register,
     required,
+    register,
     errors
 }) => {
   return (
