@@ -70,6 +70,9 @@ const ConversationList : React.FC<ConversationListProps> = ({
       setItems((prev) => {
         return [...prev.filter(convo => convo.id != conversation.id)]
       })
+      if(conversationId == conversation.id){
+        router.push('/conversations')
+      }
     }
 
 
@@ -89,7 +92,7 @@ const ConversationList : React.FC<ConversationListProps> = ({
 
     }
     
-  }, [pusherKey])
+  }, [pusherKey, conversationId, router])
 
   return (
     <>

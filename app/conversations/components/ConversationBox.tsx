@@ -24,6 +24,8 @@ const ConversationBox : React.FC<ConversationBoxProps> = ({
     const router = useRouter()
     const session = useSession()
 
+
+
     const handleClick = useCallback(() => {
         router.push(`/conversations/${data.id}`)
     }, [data.id, router])

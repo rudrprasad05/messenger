@@ -48,7 +48,7 @@ const UserBox : React.FC<UseBoxProps> = ({
         <div>
           {data?.name}
         </div>
-        {console.log(data)}
+
       </div>
     
     </>

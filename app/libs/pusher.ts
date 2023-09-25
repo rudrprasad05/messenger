@@ -13,6 +13,10 @@ export const pusherServer = new PusherServer({
 export const pusherClient = new PusherClient(
     "0f25d548d044d3ce5382",
     {
+        channelAuthorization: {
+            endpoint: '/api/pusher/auth',
+            transport: 'ajax',
+        },
         cluster: 'ap3'
     }
 )
