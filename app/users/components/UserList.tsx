@@ -23,7 +23,7 @@ const UserList : React.FC<UserListProps> = ({
       block w-full left-0'
     >
       <div className='px-6 py-2 font-bold text-xl'>
-        Chats
+        Users
       </div>
       <div className='flex flex-col items-center justify-center gap-3'>
         {items && items?.map((item) => (
