@@ -150,8 +150,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                   sm:col-span-2
                                 "
                               >
-                                {data.users.map((user) => (
-                                  <div className='flex gap-3 my-3 items-center text-sm'>
+                                {data.users.map((user, index) => (
+                                  <div key={index} className='flex gap-3 my-3 items-center text-sm'>
                                     <div>
                                       <Avatar user={user}/>
                                     </div>
