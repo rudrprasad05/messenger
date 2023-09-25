@@ -6,18 +6,19 @@ import { clsx } from 'clsx'
 import { format } from 'date-fns'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import ImageModel from './ImageModel'
 
 interface props{
     data : FullMessageType
     isLast : boolean
 
+
 }
 
 const MessageBox : React.FC<props> = ({
     data,
-    isLast
+    isLast,
 }) => {
 
     const session = useSession()
@@ -46,6 +47,7 @@ const MessageBox : React.FC<props> = ({
             <div className={body}>
                 <div className='flex items-center gap-1'>
                     <div className='text-sm text-gray-600'>
+                        
                         {data.sender.name}
                     </div>
                     <div className='text-xs text-gray-400'>

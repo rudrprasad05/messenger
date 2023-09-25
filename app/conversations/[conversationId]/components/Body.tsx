@@ -23,6 +23,7 @@ const Body : React.FC<props> = ({
 
   useEffect(() => {
     axios.post(`/api/conversations/${conversationId}/seen`)
+
   }, [conversationId])
 
 
@@ -56,11 +57,14 @@ const Body : React.FC<props> = ({
   
 
     pusherClient.bind('messages:new', messageHandler)
+    pusherClient.bind('message:update', updateMessageHandler)
     // pusherClient.bind('message:update', updateMessageHandler);
 
     return () => {
       pusherClient.unsubscribe(conversationId)
       pusherClient.unbind('messages:new', messageHandler)
+      pusherClient.unbind('message:update', updateMessageHandler)
+
       // pusherClient.unbind('message:update', updateMessageHandler)
     }
   }, [conversationId]);
@@ -72,6 +76,7 @@ const Body : React.FC<props> = ({
           isLast={index === messages.length - 1}
           key={message.id}
           data={message}
+
         />
       ))}
 
