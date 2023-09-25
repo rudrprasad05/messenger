@@ -12,6 +12,7 @@ export default async function ConversationsLayout({ children } : { children: Rea
   const users = await getUsers();
 
   return (
+
     // @ts-expect-error Server Component
     <SideBar>
       <div className="h-full">
